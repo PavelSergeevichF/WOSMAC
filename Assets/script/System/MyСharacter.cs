@@ -7,6 +7,7 @@ public class My—haracter : MonoBehaviour
     private float power;
     private int HP;
     [SerializeField] int timeEffect = 0;
+    [SerializeField] GameObject CanvasDisplay;
     float tempMod = 0;
     public bool ChekTargetObject=false;
     public string InfoText = "";
@@ -14,11 +15,17 @@ public class My—haracter : MonoBehaviour
     [SerializeField] private float _distance = 500.0f;
     private Camera _camera;
     public —harProperty ÒharProperty;
+    [SerializeField] inventoryCharacter inventoryCharacter;
+    [SerializeField] int _sizeInventoryX = 5, _sizeInventoryY=5;
 
     private void Start()
     {
         _camera = GameObject.Find("FirstPersonCharacter").GetComponent<Camera>();
         tempMod = ÒharProperty.speed_modifier;
+        //inventoryCharacter.sizeX = _sizeInventoryX;
+        //inventoryCharacter.sizeY = _sizeInventoryY;
+        targetObject.x = CanvasDisplay.GetComponent<RectTransform>().position.x;
+        targetObject.y = CanvasDisplay.GetComponent<RectTransform>().position.y;
     }
     private void Update()
     {
@@ -28,6 +35,7 @@ public class My—haracter : MonoBehaviour
         Effect();
     }
 
+    
     void UseItems()
     { 
         if(Input.GetKey("g"))
@@ -39,10 +47,8 @@ public class My—haracter : MonoBehaviour
             {
                 if (hit.collider.gameObject.GetComponent<flask_script>())
                 {
-                    Debug.Log("***");
                     if (hit.collider.name == "smalSpeedFlask")
                     {
-                        Debug.Log("++");
                         tempMod = ÒharProperty.speed_modifier;
                         timeEffect = hit.collider.gameObject.GetComponent<flask_script>().timeOfAction;
                         ÒharProperty.speed_modifier = hit.collider.gameObject.GetComponent<flask_script>().modSpid;
@@ -72,29 +78,23 @@ public class My—haracter : MonoBehaviour
             ViewTarget(out hit);
             if (hit.collider != null)
             {
-                if (hit.collider.gameObject.GetComponent<CanTake>())
+                if (hit.collider.gameObject.GetComponent<CanTake>()&& !EventGetItem.FullInventary)
                 {
+                    //EventGetItem
+                    EventGetItem.GetObjRNow = true;
+                    EventGetItem.SetParameters
+                        (
+                            hit.collider.GetComponent<ItemParameters>().mass,
+                            hit.collider.GetComponent<ItemParameters>().sizeX,
+                            hit.collider.GetComponent<ItemParameters>().sizeY,
+                            hit.collider.gameObject
+                        );
                     Destroy(hit.collider.gameObject);
                 }
             }
         }
     }
-    void ItemAction(out bool Action, out RaycastHit hit)
-    {
-        Action = false;
-        ViewTarget(out hit);
-        if (hit.collider != null)
-        {
-            if (hit.collider.gameObject.GetComponent<CanTake>())
-            {
-                Destroy(hit.collider.gameObject);
-                Action = false;
-            }
-            else
-                Action = true;
-
-        }
-    }
+ 
    
     void ViewTarget(out RaycastHit hit)
     {
@@ -103,7 +103,11 @@ public class My—haracter : MonoBehaviour
         if (hit.collider != null)
         {
             ChekTargetObject = true;
-            InfoText = hit.collider.name;
+            //InfoText = hit.collider.name;
+            if (hit.collider.GetComponent<ItemParameters>())
+                InfoText = hit.collider.GetComponent<ItemParameters>().name;
+            else
+                InfoText = hit.collider.name;
             Debug.DrawLine(ray.origin, hit.point, Color.red);
         }
         else
@@ -120,7 +124,11 @@ public class My—haracter : MonoBehaviour
         if (hit.collider != null)
         {
             ChekTargetObject = true;
-            InfoText = hit.collider.name;
+            //InfoText = hit.collider.name;
+            if(hit.collider.GetComponent<ItemParameters>())
+                InfoText = hit.collider.GetComponent<ItemParameters>().name;
+            else
+                InfoText = hit.collider.name;
             Debug.DrawLine(ray.origin, hit.point, Color.red);
         }
         else

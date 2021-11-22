@@ -81,12 +81,13 @@
     <Compile Include="Assets\Package\Standard Assets\Cameras\Scripts\ProtectCameraFromWallClip.cs" />
     <Compile Include="Assets\Package\SampleScenes\Scripts\LevelReset.cs" />
     <Compile Include="Assets\Package\SampleScenes\Menu\Scripts\SceneAndURLLoader.cs" />
-    <Compile Include="Assets\script\items_script\IItemProperties.cs" />
+    <Compile Include="Assets\script\Interface\IItemParameters.cs" />
     <Compile Include="Assets\Package\NatureStarterKit2\Standard Assets\Effects\ImageEffects\Scripts\SunShafts.cs" />
     <Compile Include="Assets\Package\Standard Assets\Vehicles\Car\Scripts\Suspension.cs" />
     <Compile Include="Assets\Package\Standard Assets\Environment\Water\Water\Scripts\Displace.cs" />
     <Compile Include="Assets\Package\Standard Assets\Cameras\Scripts\HandHeldCam.cs" />
     <Compile Include="Assets\Package\Standard Assets\Vehicles\Aircraft\Scripts\AeroplanePropellerAnimator.cs" />
+    <Compile Include="Assets\script\UIScript\InfoScript.cs" />
     <Compile Include="Assets\Package\Standard Assets\Cameras\Scripts\AbstractTargetFollower.cs" />
     <Compile Include="Assets\Package\Standard Assets\Vehicles\Car\Scripts\CarController.cs" />
     <Compile Include="Assets\Package\Standard Assets\Utility\SmoothFollow.cs" />
@@ -120,6 +121,7 @@
     <Compile Include="Assets\Package\Standard Assets\CrossPlatformInput\Scripts\TiltInput.cs" />
     <Compile Include="Assets\Package\NatureStarterKit2\Standard Assets\Effects\ImageEffects\Scripts\ScreenSpaceAmbientObscurance.cs" />
     <Compile Include="Assets\Package\NatureStarterKit2\Standard Assets\Effects\ImageEffects\Scripts\BloomAndFlares.cs" />
+    <Compile Include="Assets\script\items_script\CanTake.cs" />
     <Compile Include="Assets\Package\Standard Assets\Environment\Water\Water\Scripts\SpecularLighting.cs" />
     <Compile Include="Assets\Package\SampleScenes\Menu\Scripts\PauseMenu.cs" />
     <Compile Include="Assets\Package\Standard Assets\2D\Scripts\Platformer2DUserControl.cs" />
@@ -204,8 +206,11 @@
     <Compile Include="Assets\Package\NatureStarterKit2\Standard Assets\Effects\ImageEffects\Scripts\Triangles.cs" />
     <Compile Include="Assets\Package\Standard Assets\Utility\FPSCounter.cs" />
     <Compile Include="Assets\Package\Standard Assets\Utility\SimpleActivatorMenu.cs" />
-    <Compile Include="Assets\script\UIScript\InfoScript.cs" />
-    <Compile Include="Assets\script\items_script\CanTake.cs" />
+    <Compile Include="Assets\script\items_script\inventoryCharacter.cs" />
+    <Compile Include="Assets\script\System\Event\EventGetItem.cs" />
+    <Compile Include="Assets\script\items_script\ItemParameters.cs" />
+    <Compile Include="Assets\script\System\Exception\NullMassException.cs" />
+    <Compile Include="Assets\script\items_script\InventoryList.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\Package\NatureStarterKit2\Standard Assets\Effects\ImageEffects\Shaders\Tonemapper.shader" />

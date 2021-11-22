@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class flask_script : MonoBehaviour, IItemProperties
+public class flask_script : MonoBehaviour
 {
     public string description;
     public int timeOfAction;
