@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public static class EventGetItem
+public class EventGetItem : MonoBehaviour
 {
-    public static float mass;
-    public static float sizeX, sizeY;
-    public static float sizeVolume = 0;
-    public static GameObject GObject;
-    public static bool GetObjRNow=false;
-    public static bool FullInventary = false;
+    public float mass;
+    public float sizeX, sizeY;
+    public float sizeVolume = 0;
+    public GameObject GObject;
+    public bool GetObjectRightNow=false;
+    public bool FullInventary = false;
     //private float sharpness = 1;
 
-    public static void SetParameters(float massObj, float sizeXObj, float sizeYObj, GameObject GObj)
+    public void SetParameters(float massObj, float sizeXObj, float sizeYObj, GameObject GObj)
     {
         mass = massObj;
         sizeX = sizeXObj;
@@ -20,7 +20,7 @@ public static class EventGetItem
         GObject = GObj;
         sizeVolume = sizeX * sizeY;
     }
-    public static void GetParameters(out float massObj, out float sizeVol, out GameObject GObj)
+    public void GetParameters(out float massObj, out float sizeVol, out GameObject GObj)
     {
         massObj=mass;
         sizeVol = sizeVolume;

@@ -16,7 +16,8 @@ public class My—haracter : MonoBehaviour
     private Camera _camera;
     public —harProperty ÒharProperty;
     [SerializeField] inventoryCharacter inventoryCharacter;
-    [SerializeField] int _sizeInventoryX = 5, _sizeInventoryY=5;
+    [SerializeField] private int _sizeInventoryX = 5, _sizeInventoryY=5;
+    [SerializeField] private EventGetItem _eventGetItem;
 
     private void Start()
     {
@@ -45,13 +46,13 @@ public class My—haracter : MonoBehaviour
             ViewTarget(out hit);
             if (hit.collider != null)
             {
-                if (hit.collider.gameObject.GetComponent<flask_script>())
+                if (hit.collider.gameObject.GetComponent<FlaskScript>())
                 {
                     if (hit.collider.name == "smalSpeedFlask")
                     {
                         tempMod = ÒharProperty.speed_modifier;
-                        timeEffect = hit.collider.gameObject.GetComponent<flask_script>().timeOfAction;
-                        ÒharProperty.speed_modifier = hit.collider.gameObject.GetComponent<flask_script>().modSpid;
+                        timeEffect = hit.collider.gameObject.GetComponent<FlaskScript>().timeOfAction;
+                        ÒharProperty.speed_modifier = hit.collider.gameObject.GetComponent<FlaskScript>().modSpid;
                     }
                 }
                 if (hit.collider.gameObject.GetComponent<CanTake>())
@@ -78,11 +79,14 @@ public class My—haracter : MonoBehaviour
             ViewTarget(out hit);
             if (hit.collider != null)
             {
-                if (hit.collider.gameObject.GetComponent<CanTake>()&& !EventGetItem.FullInventary)
+                if (
+                    hit.collider.gameObject.GetComponent<CanTake>()&& 
+                    !_eventGetItem.FullInventary
+                    )
                 {
                     //EventGetItem
-                    EventGetItem.GetObjRNow = true;
-                    EventGetItem.SetParameters
+                    _eventGetItem.GetObjectRightNow = true;
+                    _eventGetItem.SetParameters
                         (
                             hit.collider.GetComponent<ItemParameters>().mass,
                             hit.collider.GetComponent<ItemParameters>().sizeX,

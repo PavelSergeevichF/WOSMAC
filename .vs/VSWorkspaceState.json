@@ -2,14 +2,12 @@
   "ExpandedNodes": [
     "",
     "\\Assets",
+    "\\Assets\\Resources",
     "\\Assets\\script",
-    "\\Assets\\script\\Interface",
-    "\\Assets\\script\\items_script",
+    "\\Assets\\script\\ItemsScript",
     "\\Assets\\script\\System",
-    "\\Assets\\script\\System\\Event",
-    "\\Assets\\script\\System\\Exception",
     "\\Assets\\script\\UIScript"
   ],
-  "SelectedNode": "\\Assets\\script\\System\\MyСharacter.cs",
+  "SelectedNode": "\\Assets\\Resources\\ControllerСharacter.cs",
   "PreviewInSolutionExplorer": false
 }

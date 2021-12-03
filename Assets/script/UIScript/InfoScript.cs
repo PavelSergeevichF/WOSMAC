@@ -12,10 +12,12 @@ public class InfoScript : MonoBehaviour
     int time = 30;
     public GameObject PanelInfo;
     public GameObject CanvasDisplayInventory;
+    [SerializeField] private InventoryList inventoryList;
 
     private void Start()
     {
         MChar= GameObject.Find("FPSController").GetComponent<MyÑharacter>();
+        inventoryList = Object.FindObjectOfType<InventoryList>();
         CanvasDisplayInventory.SetActive(false);
     }
     private void Update()
@@ -28,7 +30,7 @@ public class InfoScript : MonoBehaviour
         if (Input.GetKey("i"))
         {
             CanvasDisplayInventory.SetActive(true);
-            InventoryText.text = InventoryList.inventory_list_text;
+            InventoryText.text = inventoryList.inventoryListText;
         }
         if(!Input.GetKey("i"))
         {
@@ -46,11 +48,21 @@ public class InfoScript : MonoBehaviour
         }
         else
         {
-            if (time > 30) time--;
-            else 
+            if (time > 30)
+            { 
+                time--;
+            }
+            else
             {
-                InfoText.text = "";
-                PanelInfo.SetActive(false);
+                if (InfoText.text != "") 
+                {
+                    InfoText.text = "";
+                }
+                if (PanelInfo.active)
+                {
+                    PanelInfo.SetActive(false);
+                }
+                
             }
         }
     }
