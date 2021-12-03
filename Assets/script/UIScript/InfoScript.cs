@@ -8,7 +8,7 @@ public class InfoScript : MonoBehaviour
     public Text InfoText;
     public Text InventoryText;
     [SerializeField] string info;
-    My—haracter MChar;
+    View—haracter view—haracter;
     int time = 30;
     public GameObject PanelInfo;
     public GameObject CanvasDisplayInventory;
@@ -16,7 +16,7 @@ public class InfoScript : MonoBehaviour
 
     private void Start()
     {
-        MChar= GameObject.Find("FPSController").GetComponent<My—haracter>();
+        view—haracter = GameObject.Find("FPSController").GetComponent<View—haracter>();
         inventoryList = Object.FindObjectOfType<InventoryList>();
         CanvasDisplayInventory.SetActive(false);
     }
@@ -39,22 +39,22 @@ public class InfoScript : MonoBehaviour
     }
     void ShowInfo()
     {
-        
-        if (MChar.ChekTargetObject)
+
+        if (view—haracter.ChekTargetObject)
         {
             PanelInfo.SetActive(true);
-            InfoText.text = MChar.InfoText;
+            InfoText.text = view—haracter.InfoText;
             if (time < 30) time = 30;
         }
         else
         {
             if (time > 30)
-            { 
+            {
                 time--;
             }
             else
             {
-                if (InfoText.text != "") 
+                if (InfoText.text != "")
                 {
                     InfoText.text = "";
                 }
@@ -62,7 +62,7 @@ public class InfoScript : MonoBehaviour
                 {
                     PanelInfo.SetActive(false);
                 }
-                
+
             }
         }
     }

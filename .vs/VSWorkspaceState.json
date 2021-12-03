@@ -2,12 +2,15 @@
   "ExpandedNodes": [
     "",
     "\\Assets",
-    "\\Assets\\Resources",
+    "\\Assets\\Package",
+    "\\Assets\\Package\\Standard Assets\\Characters",
+    "\\Assets\\Package\\Standard Assets\\Characters\\FirstPersonCharacter",
+    "\\Assets\\Package\\Standard Assets\\Characters\\FirstPersonCharacter\\Scripts",
     "\\Assets\\script",
     "\\Assets\\script\\ItemsScript",
     "\\Assets\\script\\System",
-    "\\Assets\\script\\UIScript"
+    "\\Assets\\script\\System\\Event"
   ],
-  "SelectedNode": "\\Assets\\Resources\\ControllerСharacter.cs",
+  "SelectedNode": "\\Assets\\script\\System\\Event\\EventGetItem.cs",
   "PreviewInSolutionExplorer": false
 }

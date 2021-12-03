@@ -32,8 +32,16 @@ public class inventoryCharacter : MonoBehaviour
             }
             else
             {
-                Debug.Log("++");
-                item.Add(_eventGetItem.GObject);
+                
+                if (_eventGetItem.GObject != null)
+                {
+                    Debug.Log("++");
+                    item.Add(_eventGetItem.GObject);
+                }
+                else 
+                {
+                    Debug.Log("--");
+                }
                 massInventory += _eventGetItem.mass;
                 _inventoryList.AddItem(_eventGetItem.GObject.GetComponent<ItemParameters>().name);
                 if (occupied_volume < occupied_volume + _eventGetItem.sizeVolume + 1)
