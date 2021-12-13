@@ -8,6 +8,7 @@ public class ItemParameters : MonoBehaviour, IItemParameters
     public float mass=0;
     public int sizeX =1;
     public int sizeY =1;
+    public int sizeVolume;
     public GameObject gameObject;
     void Awake()
     {
@@ -16,5 +17,6 @@ public class ItemParameters : MonoBehaviour, IItemParameters
             throw new System.Exception();
         }
         mass = gameObject.GetComponent<Rigidbody>().mass;
+        sizeVolume = sizeX * sizeY;
     }
 }

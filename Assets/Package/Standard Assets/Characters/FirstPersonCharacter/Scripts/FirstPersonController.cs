@@ -41,7 +41,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private float m_NextStep;
         private bool m_Jumping;
         private AudioSource m_AudioSource;
-        public float speedModifier = 1;
+        public float speedModifier = 3;
 
         // Use this for initialization
         private void Start()
@@ -217,7 +217,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_IsWalking = !Input.GetKey(KeyCode.LeftShift);
 
             // set the desired speed to be walking or running
-            m_WalkSpeed *= speedModifier;
+            m_WalkSpeed = speedModifier;
             m_RunSpeed = m_WalkSpeed * 2;
             speed = m_IsWalking ? m_WalkSpeed : m_RunSpeed;
             m_Input = new Vector2(horizontal, vertical);

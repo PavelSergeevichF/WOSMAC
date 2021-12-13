@@ -3,14 +3,13 @@
     "",
     "\\Assets",
     "\\Assets\\Package",
-    "\\Assets\\Package\\Standard Assets\\Characters",
-    "\\Assets\\Package\\Standard Assets\\Characters\\FirstPersonCharacter",
-    "\\Assets\\Package\\Standard Assets\\Characters\\FirstPersonCharacter\\Scripts",
+    "\\Assets\\Resources",
     "\\Assets\\script",
     "\\Assets\\script\\ItemsScript",
     "\\Assets\\script\\System",
-    "\\Assets\\script\\System\\Event"
+    "\\Assets\\script\\System\\Event",
+    "\\Assets\\script\\UIScript"
   ],
-  "SelectedNode": "\\Assets\\script\\System\\Event\\EventGetItem.cs",
+  "SelectedNode": "\\Assets\\Resources\\ControllerСharacter.cs",
   "PreviewInSolutionExplorer": false
 }

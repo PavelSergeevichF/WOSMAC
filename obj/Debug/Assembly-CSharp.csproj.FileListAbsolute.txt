@@ -1,0 +1,2 @@
+D:\unityD\GB\WOSMAC\WOSMAC\obj\Debug\Assembly-CSharp.csproj.AssemblyReference.cache
+D:\unityD\GB\WOSMAC\WOSMAC\obj\Debug\Assembly-CSharp.csproj.CoreCompileInputs.cache
