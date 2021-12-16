@@ -18,7 +18,14 @@ public struct Vector3Serializable
     public float Y;
     public float Z;
 
+    
     private Vector3Serializable(float valueX, float valueY, float valueZ)
+    {
+        X = valueX;
+        Y = valueY;
+        Z = valueZ;
+    }
+    public void SetVector3(float valueX, float valueY, float valueZ)
     {
         X = valueX;
         Y = valueY;

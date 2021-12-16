@@ -13,6 +13,10 @@ public class ModelСharacter
     public System.Collections.Generic.Dictionary<int, int> frendOrEnemyList = new System.Collections.Generic.Dictionary<int, int>();
     public int fullVolume = 100;
     public int occupied_volume = 0;
+    public void Start()
+    {
+        item = new List<GameObject>();
+    }
     public void SetHp()
     {
         HP = HPMax;

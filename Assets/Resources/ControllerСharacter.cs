@@ -8,6 +8,7 @@ public class ControllerСharacter
     public float speedModifier = 3;
     private ViewСharacter _viewСharacter;
     private ModelСharacter _modelСharacter;
+    private SaveAndLoad saveAndLoad;
     private float HpRatio;
     private float EnduranceRatio;
     private float MannaRatio;
@@ -23,6 +24,8 @@ public class ControllerСharacter
     {
         SetHp();
         SetDataHpPanel();
+        _modelСharacter.Start();
+        saveAndLoad = UnityEngine.Object.FindObjectOfType<SaveAndLoad>();
     }
     public void EnableEvents()
     {
@@ -30,6 +33,8 @@ public class ControllerСharacter
         _viewСharacter.SpeedModPlayerEvent += SetSpeedModifier;
         _viewСharacter.GetGameObject += TakeGameItem;
         _viewСharacter.ChangeHpEvent += ChangeHp;
+        _viewСharacter.ExtractLastItemEvent += ExtractLastItem;
+        _viewСharacter.ThrowOutItemEvent += ThrowOutItem;
     }
 
     public float GetSpeed()
@@ -70,11 +75,74 @@ public class ControllerСharacter
         }
         else
         {
-            Debug.Log("GameObject=" + gameObject);
             _modelСharacter.item.Add(gameObject);
+            Debug.Log(gameObject.name);
             _modelСharacter.occupied_volume += gameObject.GetComponent<ItemParameters>().sizeVolume;
         }
     }
+    private void ExtractLastItem(bool bl)
+    {
+        GameObject RightHand = GetChildByName(_viewСharacter.gameObject, "RightHand");
+        GameObject LeftHand = GetChildByName(_viewСharacter.gameObject, "LeftHand");
+        //Debug.Log(CheckObjectName(RightHand));
+        if (CheckObjectSizeList(RightHand)>1)
+        {
+            if(CheckObjectSizeList(LeftHand) > 1)
+            {
+                Debug.Log("Обе руки заняты");
+            }
+            else 
+            {
+                Debug.Log("Правая рука занята");
+            }
+        }
+        else
+        {
+            if(_modelСharacter.item.Count>0)
+            {
+                int sizeList = _modelСharacter.item.Count;
+                GameObject LostItem = _modelСharacter.item[_modelСharacter.item.Count - 1];
+                _viewСharacter.CreatObject(RightHand, LostItem);
+            }
+            else 
+            {
+                Debug.Log("Инвентарь пуст");
+            }
+            
+        }
+    }
+    private GameObject GetChildByName(GameObject parent, string name)
+    {
+        Transform[] children = parent.GetComponentsInChildren<Transform>();
+        foreach (Transform t in children)
+        {
+            if (t.gameObject.name == name)
+                return t.gameObject;
+        }
+        return null;
+    }
+    private int CheckObjectSizeList(GameObject parent)
+    {
+        Transform[] children = parent.GetComponentsInChildren<Transform>();
+        return children.Length;
+    }
+    private string CheckObjectName(GameObject parent)
+    {
+        Transform[] children = parent.GetComponentsInChildren<Transform>();
+        if (children.Length > 0)
+        {
+            string str = "!";
+            foreach(Transform t in children)
+            {
+                str += t.name+", ";
+            }
+            str += ", size=" + children.Length;
+            return str;
+        }
+        return null;
+    }
+    private void ThrowOutItem(bool bl)
+    { }
     #endregion
     private void SetSpeedModifier(float InData)
     {
@@ -84,6 +152,7 @@ public class ControllerСharacter
     public void Save(Vector3 Pos)
     {
         Debug.Log("Save");
+        saveAndLoad.SaveData(Pos);
     }
     public void Load()
     {

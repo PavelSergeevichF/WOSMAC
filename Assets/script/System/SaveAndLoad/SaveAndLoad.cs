@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class SaveAndLoad : MonoBehaviour
 {
-    private string _path = "C:\\Users\\WOSMAC\\Save";
+    private string _path = "D:\\WOSMAC\\Save";
     public void SaveData(Vector3 Pos)
     {
         SavedData player = new SavedData();
-        //player.Position(Pos.x,Pos.y, Pos.z);
+        player.Position.SetVector3(Pos.x,Pos.y, Pos.z);
+        DirectoryInfo dirInfo = new DirectoryInfo(_path);
+        if(!dirInfo.Exists)
+        {
+            dirInfo.Create();
+        }
         Save(player, _path);
     }
     public void LoadData()

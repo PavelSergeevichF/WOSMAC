@@ -7,15 +7,20 @@ using Random = UnityEngine.Random;
 public class ViewСharacter : MonoBehaviour
 {
     [SerializeField] private GameObject PointOfViewGameObject;
-    [SerializeField] private GameObject PlayerCharater;
+    [SerializeField] public GameObject PlayerCharater;
     [SerializeField] private SaveAndLoad saveAndLoad;
     [SerializeField] int timeEffect = 0;
+    private bool _ifInHand = false;
+    private bool _leftHandIsBusy = false;
+    private bool _rightHandIsBusy = false;
     float tempMod = 0;
     [SerializeField] private float speed;
     public event Action<Vector3> SavePlayerPosEvent;
     public event Action<float> SpeedModPlayerEvent;
     public event Action<GameObject> GetGameObject;
     public event Action<int> ChangeHpEvent;
+    public event Action<bool> ExtractLastItemEvent;
+    public event Action<bool> ThrowOutItemEvent;
     private ControllerСharacter _controllerСharacter;
     private ModelСharacter _modelСharacter;
     [SerializeField] public PanelParametrCharater panelParametrCharater;
@@ -35,17 +40,21 @@ public class ViewСharacter : MonoBehaviour
         _controllerСharacter.EnableEvents();
         _controllerСharacter.StartControllerСharacter();
         tempMod = _controllerСharacter.speedModifier;
-        //_Camera = Camera.main;
         saveAndLoad = UnityEngine.Object.FindObjectOfType<SaveAndLoad>();
     }
     // Update is called once per frame
     private void Update()
     {
         ViewTarget();
-        GetItems();
-        UseItems();
+        WorkingWithItem();
         Effect();
         SaveAndLoad();
+        WorkingWithHP();
+    }
+
+    #region HP
+    private void WorkingWithHP()
+    {
         if (Input.GetKey("m"))
         {
             Damag(10);
@@ -53,19 +62,6 @@ public class ViewСharacter : MonoBehaviour
         if (Input.GetKey("n"))
         {
             healing(5);
-        }
-    }
-
-    private void SaveAndLoad()
-    { 
-        if(Input.GetKey(KeyCode.F5))//Save
-        {
-            SavePosEvent(PlayerCharater.transform.position);
-        }
-        if (Input.GetKey(KeyCode.F6))//Load
-        {
-            Debug.Log("Load");
-            saveAndLoad.LoadData();
         }
     }
     public void Damag(int dmg)
@@ -77,33 +73,57 @@ public class ViewСharacter : MonoBehaviour
     {
         ChangeHpEvent?.Invoke(heal);
     }
+    #endregion
+    #region Save and Load
+    private void SaveAndLoad()
+    {
+        if (Input.GetKey(KeyCode.F5))//Save
+        {
+            SavePosEvent(PlayerCharater.transform.position);
+        }
+        if (Input.GetKey(KeyCode.F6))//Load
+        {
+            Debug.Log("Load");
+            saveAndLoad.LoadData();
+        }
+    }
     void SavePosEvent(Vector3 pos)
     {
         SavePlayerPosEvent?.Invoke(pos);
     }
-    void ModSpeed(float mod)
+    #endregion
+    #region Item
+    private void WorkingWithItem()
     {
-        SpeedModPlayerEvent?.Invoke(mod);
+        UseItem();
+        GetItem();
+        if (Input.GetKey("h")) ExtractLastItemEvent?.Invoke(true);
+        if (Input.GetKey("j")) ThrowOutItemEvent?.Invoke(true);
     }
-    void UseItems()
+    public void CreatObject(GameObject goPos,GameObject goItem)
     {
-        if (Input.GetKey("g"))
+        GameObject item = Instantiate(
+                    goItem,
+                    goPos.transform.position,
+                    Quaternion.identity) as GameObject;
+    }
+    void GetItem()//взять предмет
+    {
+        if (Input.GetKey("f"))
         {
             RaycastHit hit;
             //Закладка под взаимодействие с объектам
             ViewTarget(out hit);
             if (hit.collider != null)
             {
-                if (hit.collider.gameObject.GetComponent<Flask>())
+                if (hit.collider.gameObject.GetComponent<SpeedSmalFlask1>())
                 {
                     if (hit.collider.name == "smalSpeedFlask")
                     {
                         tempMod = _controllerСharacter.speedModifier;
-                        timeEffect = hit.collider.gameObject.GetComponent<Flask>().timeOfAction;
-                        ModSpeed(hit.collider.gameObject.GetComponent<Flask>().Speed);
-                        Debug.Log("hit.collider.gameObject.GetComponent<FlaskScript>().modSpid=" +
-                            hit.collider.gameObject.GetComponent<Flask>().Speed);
-                        speed = hit.collider.gameObject.GetComponent<Flask>().Speed;
+                        timeEffect = hit.collider.gameObject.GetComponent<SpeedSmalFlask1>().timeOfAction;
+                        ModSpeed(hit.collider.gameObject.GetComponent<SpeedSmalFlask1>().Speed);
+                        speed = hit.collider.gameObject.GetComponent<SpeedSmalFlask1>().Speed;
                         PlayerCharater.GetComponent<FirstPersonController>().speedModifier = _controllerСharacter.speedModifier;
                     }
                 }
@@ -113,6 +133,48 @@ public class ViewСharacter : MonoBehaviour
                 }
             }
         }
+    }
+    
+    void UseItem()//использовать предмет
+    {
+        if (Input.GetKey("g"))
+        {
+            if(!_ifInHand)
+            {
+                UseAnExternalItem();
+            }
+        }
+    }
+    void UseAnExternalItem()
+    {
+        RaycastHit hit;
+        ViewTarget(out hit);
+        if (hit.collider != null)
+        {
+            if (
+                hit.collider.gameObject.GetComponent<CanTake>() &&
+                !_eventGetItem.FullInventary
+                )
+            {
+                //GameObject GO = hit.collider.gameObject;
+                CopyGameObject <GameObject> copyGameObject1 = new CopyGameObject<GameObject>();
+                copyGameObject1.SetGameObject(hit.collider.gameObject);
+                CopyGameObject<GameObject> copyGameObject2 = (CopyGameObject<GameObject>)copyGameObject1.Clone(hit.collider.gameObject);
+                GameObject GO = copyGameObject2.GetGameObjectData();
+                GetGameObject?.Invoke(GO);
+                Destroy(hit.collider.gameObject);
+                Debug.Log(copyGameObject2.GetGameObjectData());
+            }
+        }
+    }
+    void GetEventTakeItem(GameObject GO)
+    { 
+        GetGameObject?.Invoke(GO);
+    }
+    #endregion
+    void ModSpeed(float mod)
+    {
+        SpeedModPlayerEvent?.Invoke(mod);
     }
     void Effect()
     {
@@ -127,36 +189,8 @@ public class ViewСharacter : MonoBehaviour
                 ModSpeed(tempMod);
                 PlayerCharater.GetComponent<FirstPersonController>().speedModifier = tempMod;
             }
-        } 
-    }
-    void GetItems()
-    {
-        if (Input.GetKey("f"))
-        {
-            RaycastHit hit;
-            ViewTarget(out hit);
-            if (hit.collider != null)
-            {
-                if (
-                    hit.collider.gameObject.GetComponent<CanTake>() &&
-                    !_eventGetItem.FullInventary
-                    )
-                {
-                    GameObject GO = hit.collider.gameObject;
-                    Debug.Log("GO=" + GO);
-                    GetEventTakeItem(GO);
-                    //GetGameObject?.Invoke(GO);
-                    Destroy(hit.collider.gameObject);
-                }
-            }
         }
     }
-    void GetEventTakeItem(GameObject GO)
-    { 
-        GetGameObject?.Invoke(GO);
-    }
-
-
     void ViewTarget(out RaycastHit hit)
     {
         Vector3 position = PointOfViewGameObject.transform.position;
@@ -202,4 +236,24 @@ public class ViewСharacter : MonoBehaviour
     //{
     //    //_controllerСharacter.ChekcReputation(id, out Reputation);
     //}
+}
+public class CopyGameObject<T>
+{
+    GameObject GO;
+    public CopyGameObject()
+    { }
+    public CopyGameObject(GameObject getGO)
+    { GO = getGO; }
+    public void SetGameObject (GameObject GetGameObject)
+    {
+        GO = GetGameObject;
+    }
+    public GameObject GetGameObjectData()
+    {
+        return GO;
+    }
+    public object Clone(GameObject getGO)
+    {
+        return new CopyGameObject<T>(getGO);
+    }
 }
